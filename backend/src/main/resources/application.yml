@@ -1,0 +1,31 @@
+spring:
+  config:
+    import: optional:file:../.env[.properties]
+  application:
+    name: wishcart-api
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/wishcart}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 2
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SUPABASE_JWT_ISSUER:https://rcszwzwbltnekziecska.supabase.co/auth/v1}
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+wishcart:
+  cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  outbound-allowed-hosts: ${OUTBOUND_ALLOWED_HOSTS:amazon.in,flipkart.com,nykaa.com,myntra.com}
+  development-admin:
+    email: ${WISHCART_ADMIN_EMAIL:admin@2026}
+    password: ${WISHCART_ADMIN_PASSWORD:admin@2026}
+    token: ${WISHCART_ADMIN_TOKEN:replace-with-a-long-random-admin-token-before-deploying}
+management:
+  endpoints.web.exposure.include: health,info

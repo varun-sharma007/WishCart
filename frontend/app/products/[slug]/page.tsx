@@ -1,0 +1,5 @@
+import { notFound } from "next/navigation";
+import { BuyButton } from "@/components/buy-button";
+import { getProduct } from "@/lib/api";
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) { const product = await getProduct((await params).slug); if (!product) notFound(); return <section className="detail"><div className="detailImage">{product.imageUrl ? <img src={product.imageUrl} alt={product.name} /> : "✦"}</div><div><p className="eyebrow">{product.category} · {product.store}</p><h1>{product.name}</h1><p className="description">{product.description}</p><div className="priceLine"><strong>{formatPrice(product.currentPrice)}</strong>{product.originalPrice && <del>{formatPrice(product.originalPrice)}</del>}</div>{product.expiresAt && <p className="deal">Deal ends {new Date(product.expiresAt).toLocaleDateString()}</p>}<BuyButton productId={product.id} productName={product.name} /></div></section>; }
+function formatPrice(value: string) { return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Number(value)); }

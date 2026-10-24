@@ -1,0 +1,4 @@
+import Link from "next/link";
+import type { Product } from "@/lib/types";
+export function ProductCard({ product }: { product: Product }) { return <article className="card"><Link href={`/products/${product.slug}`} className="image">{product.imageUrl ? <img src={product.imageUrl} alt={product.name} /> : "✦"}</Link><p className="meta">{product.category} · {product.store}</p><Link href={`/products/${product.slug}`}><h3>{product.name}</h3></Link><div className="price"><strong>{money(product.currentPrice)}</strong>{product.originalPrice && <del>{money(product.originalPrice)}</del>}</div>{product.discountPercent && <span className="saving">Save {product.discountPercent}%</span>}</article>; }
+function money(value: string) { return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(Number(value)); }
